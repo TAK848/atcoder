@@ -1,5 +1,8 @@
+#include <atcoder/all>
 #include <bits/stdc++.h>
+#define _GLIBCXX_DEBUG
 using namespace std;
+using namespace atcoder;
 using mi = int64_t;
 using vmi = vector<mi>;
 using vvmi = vector<vmi>;
@@ -39,59 +42,38 @@ using vvmi = vector<vmi>;
 // }
 
 // #define endl '\n'
-
+mi n, x;
+vector<string> memo(51);
+vmi len(51);
+vmi padc(51);
+string rec(mi i)
+{
+    if (memo.at(i) != "")
+        return memo.at(i);
+    if (i == 0) {
+        memo.at(0) = "P";
+        return memo.at(0);
+    }
+    memo.at(i) = "B" + rec(i - 1) + "P" + memo.at(i - 1) + "B";
+    return memo.at(i);
+}
 int main()
 {
     __SPEED_UP__
-    mi n;
-    cin >> n;
-    if (n % 2 == 1) {
-        cout << '\n';
-        return 0;
+    len.at(0) = 1;
+    padc.at(0) = 1;
+    rep(i, 50)
+    {
+        len.at(i + 1) = len.at(i) * 2 + 3;
+        padc.at(i + 1) = padc.at(i) * 2 + 1;
     }
-    for (mi tmp = 0; tmp < (1 << n); tmp++) {
-        bitset<20> bs(tmp);
-
-        mi count = 0;
-        bool flag = true;
-        rep(i, n)
-        {
-            mi place = n - i - 1;
-            // if (bs.test(i)) {
-            if (tmp & (1 << place)) { // 1なら
-                count--;
-            } else { // 0なら
-                count++;
-            }
-            if (count < 0) {
-                flag = false;
-                break;
-            }
-        }
-        // rep(i, n)
-        // {
-        //     // if (bs.test(i)) {
-
-        //     if (tmp & (1 << i)) {
-        //         cout << '1';
-        //     } else {
-        //         cout << '0';
-        //     }
-        // }
-        // cout << '\n';
-        if (flag && count == 0) {
-            rep(i, n)
-            {
-                mi place = n - i - 1;
-                // if (bs.test(i)) {
-
-                if (tmp & (1 << place)) {
-                    cout << ')';
-                } else {
-                    cout << '(';
-                }
-            }
-            cout << '\n';
-        }
+    cin >> n >> x;
+    string check = rec(n);
+    mi P_count = 0;
+    rep(i, x)
+    {
+        if (check.at(i) == 'P')
+            P_count++;
     }
+    cout << P_count << endl;
 }

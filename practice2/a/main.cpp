@@ -1,5 +1,7 @@
+#include <atcoder/all>
 #include <bits/stdc++.h>
 using namespace std;
+using namespace atcoder;
 using mi = int64_t;
 using vmi = vector<mi>;
 using vvmi = vector<vmi>;
@@ -43,55 +45,7 @@ using vvmi = vector<vmi>;
 int main()
 {
     __SPEED_UP__
-    mi n;
-    cin >> n;
-    if (n % 2 == 1) {
-        cout << '\n';
-        return 0;
-    }
-    for (mi tmp = 0; tmp < (1 << n); tmp++) {
-        bitset<20> bs(tmp);
-
-        mi count = 0;
-        bool flag = true;
-        rep(i, n)
-        {
-            mi place = n - i - 1;
-            // if (bs.test(i)) {
-            if (tmp & (1 << place)) { // 1なら
-                count--;
-            } else { // 0なら
-                count++;
-            }
-            if (count < 0) {
-                flag = false;
-                break;
-            }
-        }
-        // rep(i, n)
-        // {
-        //     // if (bs.test(i)) {
-
-        //     if (tmp & (1 << i)) {
-        //         cout << '1';
-        //     } else {
-        //         cout << '0';
-        //     }
-        // }
-        // cout << '\n';
-        if (flag && count == 0) {
-            rep(i, n)
-            {
-                mi place = n - i - 1;
-                // if (bs.test(i)) {
-
-                if (tmp & (1 << place)) {
-                    cout << ')';
-                } else {
-                    cout << '(';
-                }
-            }
-            cout << '\n';
-        }
-    }
+    modint998244353 sum = 0;
+    sum = 10000000000;
+    cout << sum.val() << endl;
 }

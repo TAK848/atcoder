@@ -1,5 +1,8 @@
+#include <atcoder/all>
 #include <bits/stdc++.h>
+#define _GLIBCXX_DEBUG
 using namespace std;
+using namespace atcoder;
 using mi = int64_t;
 using vmi = vector<mi>;
 using vvmi = vector<vmi>;
@@ -45,53 +48,49 @@ int main()
     __SPEED_UP__
     mi n;
     cin >> n;
-    if (n % 2 == 1) {
-        cout << '\n';
-        return 0;
-    }
-    for (mi tmp = 0; tmp < (1 << n); tmp++) {
-        bitset<20> bs(tmp);
-
-        mi count = 0;
-        bool flag = true;
-        rep(i, n)
+    mi top_b_bottom_a_count = 0;
+    mi top_b_count = 0;
+    mi bottom_a_count = 0;
+    mi ans = 0;
+    rep(i, n)
+    {
+        string s;
+        cin >> s;
+        bool now_a = false;
+        mi flagcount = 0;
+        if (s.at(0) == 'B') {
+            top_b_count++;
+            flagcount++;
+        } else if (s.at(0) == 'A') {
+            now_a = true;
+        }
+        mi size = s.size();
+        rep(j, size)
         {
-            mi place = n - i - 1;
-            // if (bs.test(i)) {
-            if (tmp & (1 << place)) { // 1なら
-                count--;
-            } else { // 0なら
-                count++;
+            if (j == 0)
+                continue;
+
+            if (now_a && s.at(j) == 'B') {
+                ans++;
+            } else if (j == size - 1 && s.at(j) == 'A') {
+                bottom_a_count++;
+                flagcount++;
             }
-            if (count < 0) {
-                flag = false;
-                break;
-            }
+            now_a = (s.at(j) == 'A');
         }
-        // rep(i, n)
-        // {
-        //     // if (bs.test(i)) {
-
-        //     if (tmp & (1 << i)) {
-        //         cout << '1';
-        //     } else {
-        //         cout << '0';
-        //     }
-        // }
-        // cout << '\n';
-        if (flag && count == 0) {
-            rep(i, n)
-            {
-                mi place = n - i - 1;
-                // if (bs.test(i)) {
-
-                if (tmp & (1 << place)) {
-                    cout << ')';
-                } else {
-                    cout << '(';
-                }
-            }
-            cout << '\n';
+        if (flagcount == 2) {
+            top_b_bottom_a_count++;
+            top_b_count--;
+            bottom_a_count--;
         }
     }
+    // cout << ans << " " << top_b_bottom_a_count << " " << top_b_count << " " << bottom_a_count << endl;
+    if (top_b_count == 0 && bottom_a_count == 0) {
+        // cout << ans << endl;
+        ans += max(top_b_bottom_a_count - (mi)1, (mi)0);
+    } else {
+        // cout << ans + top_b_bottom_a_count << endl;
+        ans += min(top_b_bottom_a_count + min(top_b_count, bottom_a_count), n - 1);
+    }
+    cout << ans << endl;
 }
