@@ -1,0 +1,4 @@
+const vector<int> dx8 = { -1, -1, -1, 0, 0, 1, 1, 1 };
+const vector<int> dy8 = { -1, 0, 1, -1, 1, -1, 0, 1 };
+const vector<int> dx4 = { -1, 0, 1, 0 };
+const vector<int> dy4 = { 0, -1, 0, 1 };
