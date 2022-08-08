@@ -46,16 +46,24 @@ mi n, x;
 vector<string> memo(51);
 vmi len(51);
 vmi padc(51);
-string rec(mi i)
+mi rec(mi i, mi nowx)
 {
-    if (memo.at(i) != "")
-        return memo.at(i);
     if (i == 0) {
-        memo.at(0) = "P";
-        return memo.at(0);
+        return 1;
     }
-    memo.at(i) = "B" + rec(i - 1) + "P" + memo.at(i - 1) + "B";
-    return memo.at(i);
+    if (nowx == 1) {
+        return 0;
+    } else if (nowx <= len.at(i - 1) + 1) {
+        return rec(i - 1, nowx - 1);
+    } else if (nowx == len.at(i - 1) + 2) {
+        return padc.at(i - 1) + 1;
+    } else if (nowx <= 2 * len.at(i - 1) + 2) {
+        return padc.at(i - 1) + 1 + rec(i - 1, nowx - (len.at(i - 1) + 2));
+    } else if (nowx == 2 * len.at(i - 1) + 3) {
+        return padc.at(i - 1) + 1 + padc.at(i - 1);
+    } else {
+        return 0;
+    }
 }
 int main()
 {
@@ -68,12 +76,5 @@ int main()
         padc.at(i + 1) = padc.at(i) * 2 + 1;
     }
     cin >> n >> x;
-    string check = rec(n);
-    mi P_count = 0;
-    rep(i, x)
-    {
-        if (check.at(i) == 'P')
-            P_count++;
-    }
-    cout << P_count << endl;
+    cout << rec(n, x) << endl;
 }
