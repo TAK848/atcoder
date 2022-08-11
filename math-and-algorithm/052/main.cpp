@@ -6,6 +6,12 @@ using namespace atcoder;
 using mi = int64_t;
 using vmi = vector<mi>;
 using vvmi = vector<vmi>;
+using vs = vector<string>;
+using vvs = vector<vs>;
+using vb = vector<bool>;
+using vvb = vector<vb>;
+using modi = modint1000000007;
+// using modi = modint998244353;
 #define __SPEED_UP__                  \
     ios_base::sync_with_stdio(false); \
     cin.tie(nullptr);
@@ -46,4 +52,30 @@ using vvmi = vector<vmi>;
 int main()
 {
     __SPEED_UP__
+    mi x, y;
+    cin >> x >> y;
+    if ((x + y) % 3 != 0) {
+        cout << 0 << endl;
+        return 0;
+    }
+    mi step = (x + y) / 3;
+    x -= step;
+    y -= step;
+
+    mi a = x + y;
+    mi b = min(x, y);
+    if (b < 0) {
+        cout << 0 << endl;
+        return 0;
+    }
+    modi ans = 1;
+    // modi c = 1;
+    for (mi i = a; i > a - b; i--) {
+        ans *= i;
+    }
+    // cout << '\n';
+    for (mi i = 1; i <= b; i++) {
+        ans /= i;
+    }
+    cout << ans.val() << '\n';
 }

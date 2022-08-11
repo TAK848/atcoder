@@ -46,4 +46,25 @@ using vvmi = vector<vmi>;
 int main()
 {
     __SPEED_UP__
+    mi n, x;
+    cin >> n >> x;
+    // vmi a(n);
+    mi before = 0;
+    cin >> before;
+    mi ans = 0;
+    if (before > x) {
+        ans += before - x;
+        before = x;
+    }
+    rep2(i, 1, n)
+    {
+        mi now;
+        cin >> now;
+        if (now + before > x) {
+            ans += now + before - x;
+            now -= now + before - x;
+        }
+        before = now;
+    }
+    cout << ans << endl;
 }

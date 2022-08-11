@@ -46,4 +46,17 @@ using vvmi = vector<vmi>;
 int main()
 {
     __SPEED_UP__
+    mi n;
+    cin >> n;
+    vmi cost(n);
+    rep(i, n) cin >> cost.at(i);
+    vmi dp(n);
+    dp.at(0) = 0;
+    dp.at(1) = abs(cost.at(0) - cost.at(1));
+    rep2(i, 2, n)
+    {
+        dp.at(i) = min(dp.at(i - 1) + abs(cost.at(i - 1) - cost.at(i)),
+            dp.at(i - 2) + abs(cost.at(i - 2) - cost.at(i)));
+    }
+    cout << dp.back() << endl;
 }

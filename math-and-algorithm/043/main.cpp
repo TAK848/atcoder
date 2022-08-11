@@ -6,6 +6,10 @@ using namespace atcoder;
 using mi = int64_t;
 using vmi = vector<mi>;
 using vvmi = vector<vmi>;
+using vs = vector<string>;
+using vvs = vector<vs>;
+using vb = vector<bool>;
+using vvb = vector<vb>;
 #define __SPEED_UP__                  \
     ios_base::sync_with_stdio(false); \
     cin.tie(nullptr);
@@ -46,4 +50,38 @@ using vvmi = vector<vmi>;
 int main()
 {
     __SPEED_UP__
+    mi n, m;
+    cin >> n >> m;
+    vvmi g(n, vmi());
+    rep(i, m)
+    {
+        mi a, b;
+        cin >> a >> b;
+        g.at(a - 1).push_back(b - 1);
+        g.at(b - 1).push_back(a - 1);
+    }
+    stack<mi> s;
+    vb visited(n, false);
+    s.push(0);
+    visited.at(0) = true;
+    while (!s.empty()) {
+        mi v = s.top();
+        s.pop();
+        rep(j, g.at(v).size())
+        {
+            mi u = g.at(v).at(j);
+            if (!visited.at(u)) {
+                visited.at(u) = true;
+                s.push(u);
+            }
+        }
+    }
+    rep(i, n)
+    {
+        if (!visited.at(i)) {
+            cout << "The graph is not connected." << endl;
+            return 0;
+        }
+    }
+    cout << "The graph is connected." << endl;
 }

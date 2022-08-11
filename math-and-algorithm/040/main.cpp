@@ -6,6 +6,10 @@ using namespace atcoder;
 using mi = int64_t;
 using vmi = vector<mi>;
 using vvmi = vector<vmi>;
+using vs = vector<string>;
+using vvs = vector<vs>;
+using vb = vector<bool>;
+using vvb = vector<vb>;
 #define __SPEED_UP__                  \
     ios_base::sync_with_stdio(false); \
     cin.tie(nullptr);
@@ -46,4 +50,33 @@ using vvmi = vector<vmi>;
 int main()
 {
     __SPEED_UP__
+    mi n;
+    cin >> n;
+    vmi a(n, 0);
+    rep(i, n - 1)
+    {
+        cin >> a.at(i);
+    }
+    exclusive_scan(all(a), a.begin(), (mi)0);
+    // rep(i, n)
+    // {
+    //     cout << a.at(i) << " ";
+    // }
+    // cout << endl;
+    mi m;
+    cin >> m;
+    mi dist = 0;
+    mi place = 0;
+    rep(i, m)
+    {
+        mi b;
+        cin >> b;
+        b--;
+        if (i != 0) {
+            dist += abs(a.at(b) - a.at(place));
+            // cout << b << " " << place << " " << a.at(b) - a.at(place) << endl;
+        }
+        place = b;
+    }
+    cout << dist << '\n';
 }

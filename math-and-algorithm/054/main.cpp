@@ -4,8 +4,15 @@
 using namespace std;
 using namespace atcoder;
 using mi = int64_t;
-using vmi = vector<mi>;
+using modi = static_modint<1000000000>;
+using vmi = vector<modi>;
 using vvmi = vector<vmi>;
+using vs = vector<string>;
+using vvs = vector<vs>;
+using vb = vector<bool>;
+using vvb = vector<vb>;
+using matrix2 = vvmi;
+// using modi = modint998244353;
 #define __SPEED_UP__                  \
     ios_base::sync_with_stdio(false); \
     cin.tie(nullptr);
@@ -42,8 +49,52 @@ using vvmi = vector<vmi>;
 // }
 
 // #define endl '\n'
+vvmi multiplication(vvmi a, vvmi b)
+{
+    mi size = a.size();
+    vvmi c(size, vmi(size, 0));
+    rep(i, size)
+    {
+        rep(j, size)
+        {
+            rep(k, size)
+            {
+                c.at(i).at(j) += a.at(i).at(k) * b.at(k).at(j);
+            }
+        }
+    }
+    return c;
+}
+vvmi power(vvmi a, mi n)
+{
+    vvmi p = a, q;
+    bitset<64> b(n);
+    bool flag = false;
+    rep(i, b.size())
+    {
+        if (b[i]) {
+            if (flag) {
+                q = multiplication(q, p);
+            } else {
+                q = p;
+                flag = true;
+            }
+        }
+        p = multiplication(p, p);
+    }
+    return q;
+}
 
 int main()
 {
     __SPEED_UP__
+    mi n;
+    cin >> n;
+    vvmi a = {
+        { 1, 1 },
+        { 1, 0 },
+    };
+    n--;
+    vvmi b = power(a, n);
+    cout << b.at(0).at(0).val() << endl;
 }

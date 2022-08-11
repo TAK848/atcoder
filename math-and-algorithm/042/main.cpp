@@ -46,4 +46,29 @@ using vvmi = vector<vmi>;
 int main()
 {
     __SPEED_UP__
+    mi n;
+    cin >> n;
+    mi ans = 0;
+    vmi list(n + 1);
+    rep2(i, 1, n + 1)
+    {
+        for (mi j = i; j <= n; j += i) {
+            list.at(j)++;
+        }
+        ans += i * list.at(i);
+    }
+    // rep2(t, 1, n + 1)
+    // {
+    //     mi count = 0;
+    //     rep2(i, 1, sqrt(t) + 1)
+    //     {
+    //         if (t % i == 0) {
+    //             count++;
+    //             if (i != t / i)
+    //                 count++;
+    //         }
+    //     }
+    //     ans += t * count;
+    // }
+    cout << ans << endl;
 }

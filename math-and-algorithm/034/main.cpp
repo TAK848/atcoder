@@ -6,6 +6,10 @@ using namespace atcoder;
 using mi = int64_t;
 using vmi = vector<mi>;
 using vvmi = vector<vmi>;
+using vs = vector<string>;
+using vvs = vector<vs>;
+using vb = vector<bool>;
+using vvb = vector<vb>;
 #define __SPEED_UP__                  \
     ios_base::sync_with_stdio(false); \
     cin.tie(nullptr);
@@ -29,21 +33,37 @@ using vvmi = vector<vmi>;
 //     }
 //     return false;
 // }
-// // aよりもbが小さいならばaをbで更新する
-// // (更新されたならばtrueを返す)
-// template <typename T>
-// bool chmin(T& a, const T& b)
-// {
-//     if (a > b) {
-//         a = b; // aをbで更新
-//         return true;
-//     }
-//     return false;
-// }
+// aよりもbが小さいならばaをbで更新する
+// (更新されたならばtrueを返す)
+template <typename T>
+bool chmin(T& a, const T& b)
+{
+    if (a > b) {
+        a = b; // aをbで更新
+        return true;
+    }
+    return false;
+}
 
 // #define endl '\n'
 
 int main()
 {
     __SPEED_UP__
+    mi n;
+    cin >> n;
+    vector<pair<mi, mi>> a(n);
+    rep(i, n) cin >> a.at(i).first >> a.at(i).second;
+    double ans = 1 << 30;
+    rep(i, n)
+    {
+        rep(j, n)
+        {
+            if (i == j)
+                continue;
+            double x = sqrt(pow(a.at(i).first - a.at(j).first, 2) + pow(a.at(i).second - a.at(j).second, 2));
+            chmin(ans, x);
+        }
+    }
+    cout << fixed << setprecision(28) << ans << '\n';
 }

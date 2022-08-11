@@ -6,6 +6,10 @@ using namespace atcoder;
 using mi = int64_t;
 using vmi = vector<mi>;
 using vvmi = vector<vmi>;
+using vs = vector<string>;
+using vvs = vector<vs>;
+using vb = vector<bool>;
+using vvb = vector<vb>;
 #define __SPEED_UP__                  \
     ios_base::sync_with_stdio(false); \
     cin.tie(nullptr);
@@ -42,8 +46,42 @@ using vvmi = vector<vmi>;
 // }
 
 // #define endl '\n'
-
 int main()
 {
     __SPEED_UP__
+    mi k;
+    cin >> k;
+    vector<vector<pair<mi, mi>>> g(k); //[今の頂点]<次の頂点, 次の距離>
+    rep(i, k)
+    {
+        rep(j, 10)
+        {
+            if (i == 0 && j == 0)
+                continue;
+            g.at(i).push_back(make_pair((i * 10 + j) % k, j));
+        }
+    }
+    vmi dist(k, INT32_MAX);
+    vmi used(k, false);
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> que; //<今の重み, 次の場所>
+    que.push(make_pair(0, 0));
+    while (!que.empty()) {
+        auto pos = que.top().second;
+        que.pop();
+        if (used[pos])
+            continue;
+        used[pos] = true;
+        // dist[p.second] = p.first;
+        for (auto i : g[pos]) {
+            mi to = i.first, cost = dist.at(pos) + i.second;
+            if (pos == 0)
+                cost = i.second;
+            if (dist.at(to) > cost) {
+                dist.at(to) = cost;
+                que.push(make_pair(cost, to));
+            }
+            // que.push(make_pair(p.first + cost, next));
+        }
+    }
+    cout << dist.front() << '\n';
 }
