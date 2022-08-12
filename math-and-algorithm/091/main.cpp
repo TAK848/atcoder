@@ -52,15 +52,15 @@ using vvb = vector<vb>;
 int main()
 {
     __SPEED_UP__
-    mi n;
-    cin >> n;
+    mi n, x;
+    cin >> n >> x;
     mi ans = 0;
-    // vmi a(n);
-    rep(i, n)
+    rep2(a, 1, n - 1) rep2(b, a + 1, n)
     {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
+        mi c = x - a - b;
+        if (c > 0 && c > b && c <= n) {
+            ans++;
+        }
     }
     cout << ans << '\n';
 }

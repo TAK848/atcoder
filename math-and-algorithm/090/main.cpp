@@ -48,19 +48,45 @@ using vvb = vector<vb>;
 // }
 
 // #define endl '\n'
-
+set<mi> fm_cand;
+mi product(mi m)
+{
+    if (m == 0) {
+        return 0;
+    } else {
+        mi ans = 1;
+        while (m >= 1) {
+            ans *= m % 10;
+            m /= 10;
+        }
+        return ans;
+    }
+}
+void func(mi digit, mi m)
+{
+    if (digit == 11) {
+        fm_cand.insert(product(m));
+        return;
+    }
+    mi min_value = m % 10;
+    rep2(i, min_value, 10)
+    {
+        func(digit + 1, m * 10 + i);
+    }
+}
 int main()
 {
     __SPEED_UP__
-    mi n;
-    cin >> n;
+    func(0, 0);
+    mi n, b;
+    cin >> n >> b;
     mi ans = 0;
-    // vmi a(n);
-    rep(i, n)
-    {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
+    for (auto fm : fm_cand) {
+        mi m = fm + b;
+        mi prod_m = product(m);
+        if (m - prod_m == b && m <= n) {
+            ans++;
+        }
     }
     cout << ans << '\n';
 }

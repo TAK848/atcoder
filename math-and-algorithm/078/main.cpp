@@ -52,15 +52,34 @@ using vvb = vector<vb>;
 int main()
 {
     __SPEED_UP__
-    mi n;
-    cin >> n;
-    mi ans = 0;
-    // vmi a(n);
+    mi n, m;
+    cin >> n >> m;
+    vvmi g(n, vmi());
+    rep(i, m)
+    {
+        mi a, b;
+        cin >> a >> b;
+        g.at(a - 1).push_back(b - 1);
+        g.at(b - 1).push_back(a - 1);
+    }
+    vmi dist = vmi(n, -1);
+    queue<mi> que;
+    que.push(0);
+    dist.at(0) = 0;
+    while (!que.empty()) {
+        mi u = que.front();
+        que.pop();
+        rep(i, g.at(u).size())
+        {
+            mi v = g.at(u).at(i);
+            if (dist.at(v) == -1) {
+                dist.at(v) = dist.at(u) + 1;
+                que.push(v);
+            }
+        }
+    }
     rep(i, n)
     {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
+        cout << (dist.at(i) == -1 ? 120 : min(dist.at(i), (mi)120)) << '\n';
     }
-    cout << ans << '\n';
 }

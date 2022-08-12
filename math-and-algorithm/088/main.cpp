@@ -11,7 +11,7 @@ using vvs = vector<vs>;
 using vb = vector<bool>;
 using vvb = vector<vb>;
 // using modi = modint1000000007;
-// using modi = modint998244353;
+using modi = modint998244353;
 #define __SPEED_UP__                  \
     ios_base::sync_with_stdio(false); \
     cin.tie(nullptr);
@@ -52,15 +52,9 @@ using vvb = vector<vb>;
 int main()
 {
     __SPEED_UP__
-    mi n;
-    cin >> n;
-    mi ans = 0;
-    // vmi a(n);
-    rep(i, n)
-    {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
-    }
-    cout << ans << '\n';
+    mi a, b, c;
+    cin >> a >> b >> c;
+    modi ax = a, bx = b, cx = c;
+    modi ans = ax * bx * cx * (ax + 1) * (bx + 1) * (cx + 1) / 8;
+    cout << ans.val() << '\n';
 }

@@ -52,15 +52,39 @@ using vvb = vector<vb>;
 int main()
 {
     __SPEED_UP__
-    mi n;
-    cin >> n;
-    mi ans = 0;
-    // vmi a(n);
-    rep(i, n)
+    // dijkstra
+    mi n, m;
+    cin >> n >> m;
+    vector<vector<pair<mi, mi>>> g(n); // <weight, to>
+    rep(i, m)
     {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
+        mi a, b, c;
+        cin >> a >> b >> c;
+        a--;
+        b--;
+        g.at(a).emplace_back(c, b);
+        g.at(b).emplace_back(c, a);
     }
-    cout << ans << '\n';
+    vmi dist(n, INT64_MAX);
+    vb used(n, false);
+    priority_queue<pair<mi, mi>, vector<pair<mi, mi>>, greater<pair<mi, mi>>> que; //<nowweight,next>
+    que.emplace(0, 0);
+    dist.at(0) = 0;
+    while (!que.empty()) {
+        mi pos = que.top().second;
+        que.pop();
+        if (used.at(pos)) {
+            continue;
+        }
+        used.at(pos) = true;
+        for (auto p : g.at(pos)) {
+            mi next = p.second;
+            mi nextweight = p.first;
+            if (dist.at(next) > dist.at(pos) + nextweight) {
+                dist.at(next) = dist.at(pos) + nextweight;
+                que.emplace(dist.at(next), next);
+            }
+        }
+    }
+    cout << (dist.at(n - 1) == INT64_MAX ? -1 : dist.at(n - 1)) << '\n';
 }

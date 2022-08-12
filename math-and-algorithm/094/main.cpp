@@ -35,32 +35,36 @@ using vvb = vector<vb>;
 //     }
 //     return false;
 // }
-// // aよりもbが小さいならばaをbで更新する
-// // (更新されたならばtrueを返す)
-// template <typename T>
-// bool chmin(T& a, const T& b)
-// {
-//     if (a > b) {
-//         a = b; // aをbで更新
-//         return true;
-//     }
-//     return false;
-// }
+// aよりもbが小さいならばaをbで更新する
+// (更新されたならばtrueを返す)
+template <typename T>
+bool chmin(T& a, const T& b)
+{
+    if (a > b) {
+        a = b; // aをbで更新
+        return true;
+    }
+    return false;
+}
 
-// #define endl '\n'
+#define endl '\n'
 
 int main()
 {
     __SPEED_UP__
     mi n;
     cin >> n;
-    mi ans = 0;
-    // vmi a(n);
-    rep(i, n)
+    vmi a(n);
+    mi b;
+    cin >> b;
+    a.at(0) = b;
+    mi ans = a.at(0);
+    rep2(i, 1, n)
     {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
+        a.at(i) = b;
+        cin >> b;
+        chmin(a.at(i), b);
+        ans += a.at(i);
     }
     cout << ans << '\n';
 }

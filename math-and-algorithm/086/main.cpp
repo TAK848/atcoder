@@ -54,13 +54,15 @@ int main()
     __SPEED_UP__
     mi n;
     cin >> n;
-    mi ans = 0;
-    // vmi a(n);
-    rep(i, n)
-    {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
+    string s;
+    cin >> s;
+    mi count = 0;
+    for (auto c : s) {
+        count += (c == '(' ? 1 : -1);
+        if (count < 0) {
+            cout << "No\n";
+            return 0;
+        }
     }
-    cout << ans << '\n';
+    cout << YesNo(count == 0) << '\n';
 }

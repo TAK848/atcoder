@@ -52,15 +52,20 @@ using vvb = vector<vb>;
 int main()
 {
     __SPEED_UP__
-    mi n;
-    cin >> n;
-    mi ans = 0;
-    // vmi a(n);
-    rep(i, n)
-    {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
+    mi a, b, c;
+    cin >> a >> b >> c;
+    if (c == 1) {
+        cout << "No";
+        return 0;
     }
-    cout << ans << '\n';
+    mi check = 1;
+    rep(i, b)
+    {
+        if (check > a / c) {
+            cout << "Yes\n";
+            return 0;
+        }
+        check *= c;
+    }
+    cout << "No\n";
 }

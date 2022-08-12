@@ -10,7 +10,7 @@ using vs = vector<string>;
 using vvs = vector<vs>;
 using vb = vector<bool>;
 using vvb = vector<vb>;
-// using modi = modint1000000007;
+using modi = modint1000000007;
 // using modi = modint998244353;
 #define __SPEED_UP__                  \
     ios_base::sync_with_stdio(false); \
@@ -54,13 +54,17 @@ int main()
     __SPEED_UP__
     mi n;
     cin >> n;
-    mi ans = 0;
-    // vmi a(n);
+    vector<modi> factorial(n + 1, 1);
     rep(i, n)
     {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
+        factorial.at(i + 1) *= factorial.at(i) * (i + 1);
     }
-    cout << ans << '\n';
+    modi ans = 0;
+    rep(i, n)
+    {
+        mi input;
+        cin >> input;
+        ans += factorial.at(n - 1) / factorial.at(i) / factorial.at(n - 1 - i) * input;
+    }
+    cout << ans.val() << '\n';
 }

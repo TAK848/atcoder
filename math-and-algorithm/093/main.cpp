@@ -52,15 +52,19 @@ using vvb = vector<vb>;
 int main()
 {
     __SPEED_UP__
-    mi n;
-    cin >> n;
-    mi ans = 0;
-    // vmi a(n);
-    rep(i, n)
-    {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
+    mi a, b;
+    cin >> a >> b;
+    mi c = gcd(a, b);
+    a /= c;
+    b /= c;
+    double l = log10(a) + log10(b) + log10(c);
+    // cout << l << endl;
+    if (17.9 < l && l < 18.1) {
+        c *= a * b;
+        cout << (1 < c && c <= 1000000000000000000 ? to_string(c) : "Large") << '\n';
+    } else if (18.01 <= l) {
+        cout << "Large" << '\n';
+    } else {
+        cout << a * b * c << '\n';
     }
-    cout << ans << '\n';
 }

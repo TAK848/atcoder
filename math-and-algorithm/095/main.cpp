@@ -54,13 +54,25 @@ int main()
     __SPEED_UP__
     mi n;
     cin >> n;
-    mi ans = 0;
-    // vmi a(n);
+    vmi a1(n + 1, 0), a2(n + 1, 0);
     rep(i, n)
     {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
+        mi c, p;
+        cin >> c >> p;
+        if (c == 1) {
+            a1.at(i) = p;
+        } else {
+            a2.at(i) = p;
+        }
     }
-    cout << ans << '\n';
+    exclusive_scan(all(a1), a1.begin(), 0);
+    exclusive_scan(all(a2), a2.begin(), 0);
+    mi q;
+    cin >> q;
+    rep(i, q)
+    {
+        mi l, r;
+        cin >> l >> r;
+        cout << a1.at(r) - a1.at(l - 1) << " " << a2.at(r) - a2.at(l - 1) << '\n';
+    }
 }

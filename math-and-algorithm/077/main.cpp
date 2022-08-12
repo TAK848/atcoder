@@ -55,12 +55,17 @@ int main()
     mi n;
     cin >> n;
     mi ans = 0;
-    // vmi a(n);
+    vmi x(n), y(n);
     rep(i, n)
     {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
+        cin >> x.at(i) >> y.at(i);
+    }
+    sort(all(x));
+    sort(all(y));
+    rep(i, n)
+    {
+        ans += x.at(i) * (-n + 2 * i + 1);
+        ans += y.at(i) * (-n + 2 * i + 1);
     }
     cout << ans << '\n';
 }

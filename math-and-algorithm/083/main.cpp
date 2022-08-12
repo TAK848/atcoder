@@ -54,13 +54,21 @@ int main()
     __SPEED_UP__
     mi n;
     cin >> n;
-    mi ans = 0;
-    // vmi a(n);
+    vmi a(n), b(n);
     rep(i, n)
     {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
+        cin >> a.at(i);
+    }
+    rep(i, n)
+    {
+        cin >> b.at(i);
+    }
+    sort(all(a));
+    sort(all(b));
+    mi ans = 0;
+    rep(i, n)
+    {
+        ans += abs(a.at(i) - b.at(i));
     }
     cout << ans << '\n';
 }

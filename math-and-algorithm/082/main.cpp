@@ -54,13 +54,23 @@ int main()
     __SPEED_UP__
     mi n;
     cin >> n;
-    mi ans = 0;
-    // vmi a(n);
+    priority_queue<pair<mi, mi>, vector<pair<mi, mi>>, greater<pair<mi, mi>>> pq;
     rep(i, n)
     {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
+        mi l, r;
+        cin >> l >> r;
+        pq.emplace(r, l);
+    }
+    mi ans = 0;
+    mi now = 0;
+    while (!pq.empty()) {
+        auto [fin, start] = pq.top();
+        // cout << fin << ' ' << start << '\n';
+        pq.pop();
+        if (start >= now) {
+            ans++;
+            now = fin;
+        }
     }
     cout << ans << '\n';
 }

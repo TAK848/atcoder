@@ -52,15 +52,7 @@ using vvb = vector<vb>;
 int main()
 {
     __SPEED_UP__
-    mi n;
-    cin >> n;
-    mi ans = 0;
-    // vmi a(n);
-    rep(i, n)
-    {
-        mi a;
-        cin >> a;
-        ans += a * (-n + 2 * i + 1);
-    }
-    cout << ans << '\n';
+    mi a, b, c;
+    cin >> a >> b >> c;
+    cout << YesNo((c - a - b) > 0 && (c - a - b) * (c - a - b) - 4 * a * b > 0) << endl;
 }
