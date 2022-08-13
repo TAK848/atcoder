@@ -6,6 +6,8 @@ using namespace atcoder;
 using mi = int64_t;
 using vmi = vector<mi>;
 using vvmi = vector<vmi>;
+using vd = vector<double>;
+using vvd = vector<vd>;
 using vs = vector<string>;
 using vvs = vector<vs>;
 using vb = vector<bool>;
