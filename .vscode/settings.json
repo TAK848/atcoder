@@ -8,6 +8,7 @@
         "array": "cpp",
         "string_view": "cpp",
         "numeric": "cpp",
-        "all": "cpp"
+        "all": "cpp",
+        "iosfwd": "cpp"
     }
 }

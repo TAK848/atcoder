@@ -6,10 +6,14 @@ using namespace atcoder;
 using mi = int64_t;
 using vmi = vector<mi>;
 using vvmi = vector<vmi>;
+using vd = vector<double>;
+using vvd = vector<vd>;
 using vs = vector<string>;
 using vvs = vector<vs>;
 using vb = vector<bool>;
 using vvb = vector<vb>;
+// using modi = modint1000000007;
+// using modi = modint998244353;
 #define __SPEED_UP__                  \
     ios_base::sync_with_stdio(false); \
     cin.tie(nullptr);
@@ -17,36 +21,19 @@ using vvb = vector<vb>;
 #define repstep(i, n, step) for (mi i = (mi)(n); i < (mi)(n) + (mi)(step); i++)
 #define rep2(i, m, n) for (mi i = (mi)(m); i < (mi)(n); i++)
 #define repstep2(i, m, n, step) for (mi i = (mi)(m); i < (mi)(n) + (mi)(step); i++)
+#define forall(i, v) for (auto& i : v)
+#define forallpair(i, j, v) for (auto& [i, j] : v)
 #define all(v) v.begin(), v.end()
 #define YesNo(a) ((a) ? "Yes" : "No")
 #define YESNO(a) ((a) ? "YES" : "NO")
 #define yesno(a) ((a) ? "yes" : "no")
 
-// // aよりもbが大きいならばaをbで更新する
-// // (更新されたならばtrueを返す)
-// template <typename T>
-// bool chmax(T& a, const T& b)
-// {
-//     if (a < b) {
-//         a = b; // aをbで更新
-//         return true;
-//     }
-//     return false;
-// }
-// // aよりもbが小さいならばaをbで更新する
-// // (更新されたならばtrueを返す)
-// template <typename T>
-// bool chmin(T& a, const T& b)
-// {
-//     if (a > b) {
-//         a = b; // aをbで更新
-//         return true;
-//     }
-//     return false;
-// }
-
-// #define endl '\n'
-
+// aよりもbが大きいならばaをbで更新する(更新されたならばtrueを返す)
+template <typename T>
+inline bool chmax(T& a, T b) { return ((a < b) ? (a = b, true) : (false)); }
+// aよりもbが小さいならばaをbで更新する(更新されたならばtrueを返す)
+template <typename T>
+inline bool chmin(T& a, T b) { return ((a > b) ? (a = b, true) : (false)); }
 template <typename T>
 inline istream& operator>>(istream& is, vector<T>& vec)
 {
@@ -54,6 +41,9 @@ inline istream& operator>>(istream& is, vector<T>& vec)
         is >> x;
     return is;
 }
+
+// #define endl '\n'
+
 int main()
 {
     __SPEED_UP__
@@ -61,6 +51,7 @@ int main()
     cin >> n;
     vmi a(n);
     cin >> a;
-    sort(all(a));
-    rep(i, n) cout << a.at(i) << (i == n - 1 ? "\n" : " ");
+    sort(all(a), greater<mi>());
+    string s1 = to_string(a.at(0)), s2 = to_string(a.at(1)), s3 = to_string(a.at(2));
+    cout << max(max(s1 + s2 + s3, max(s1 + s3 + s2, s2 + s1 + s3)), max(s2 + s3 + s1, max(s3 + s1 + s2, s3 + s2 + s1))) << endl;
 }
