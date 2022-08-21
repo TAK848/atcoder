@@ -58,11 +58,14 @@ int main()
         rep(j, m)
         {
             if (i == 0) {
+                if (j != 0) {
+                    dp.at(0).at(j) = dp.at(0).at(j - 1);
+                }
                 if (s.at(0) == t.at(j)) {
                     // cout << i << " " << j << " " << s.at(i) << endl;
                     dp.at(0).at(j) = 1;
                 }
-                chmax(ans_len, dp.at(0).at(j));
+                // chmax(ans_len, dp.at(0).at(j));
                 continue;
             }
             if (s.at(i) == t.at(j)) {
@@ -82,25 +85,29 @@ int main()
                     dp.at(i).at(j) = max(dp.at(i - 1).at(j), dp.at(i).at(j - 1));
                 }
             }
-            chmax(ans_len, dp.at(i).at(j));
+            // chmax(ans_len, dp.at(i).at(j));
         }
     }
-    cout << ans_len << endl;
+    ans_len = dp.at(n - 1).at(m - 1);
+    // cout << ans_len << endl;
     string ans(ans_len, ' ');
     ans_len--;
     n--;
     m--;
     while (ans_len >= 0) {
         if (s.at(n) == t.at(m)) {
+            // cout << n << " " << m << " " << s.at(n) << endl;
             ans.at(ans_len) = s.at(n);
+            // cout << ans.at(ans_len) << endl;
             n--;
             m--;
             ans_len--;
-        } else if (dp.at(n).at(m) == dp.at(n - 1).at(m)) {
+        } else if (n > 0 && dp.at(n).at(m) == dp.at(n - 1).at(m)) {
             n--;
         } else {
             m--;
         }
+        // cout << n << " " << m << endl;
     }
     cout << ans << endl;
 }
