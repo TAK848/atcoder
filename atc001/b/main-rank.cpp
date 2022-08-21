@@ -43,52 +43,42 @@ inline istream& operator>>(istream& is, vector<T>& vec)
 }
 
 // #define endl '\n'
-
+mi root(vmi& par, mi x)
+{
+    if (par.at(x) == x)
+        return x;
+    return par.at(x) = root(par, par.at(x));
+}
 int main()
 {
     __SPEED_UP__
-    mi n, m, e;
-    cin >> n >> m >> e;
-    vector<pair<mi, mi>> g(e);
-    rep(i, e)
-    {
-        cin >> g[i].first >> g[i].second;
-        if (g.at(i).first > n) {
-            g.at(i).first = 0;
-        }
-        if (g.at(i).second > n) {
-            g.at(i).second = 0;
-        }
-    }
-    mi q;
-    cin >> q;
-    vb flag(e, true);
-    stack<mi> query;
+    mi n, q;
+    cin >> n >> q;
+    vmi par(n), rank(n, 0);
+    rep(i, n) par.at(i) = i;
     rep(i, q)
     {
-        mi x;
-        cin >> x;
-        x--;
-        flag.at(x) = false;
-        query.push(x);
-    }
-    dsu d(n + 1);
-    rep(i, e)
-    {
-        if (flag.at(i)) {
-            d.merge(g.at(i).first, g.at(i).second);
+        mi query, a, b;
+        cin >> query >> a >> b;
+        if (query == 0) {
+            a = root(par, a);
+            b = root(par, b);
+            if (a != b) {
+                if (rank.at(a) < rank.at(b)) {
+                    par.at(a) = b;
+                } else {
+                    par.at(b) = a;
+                    if (rank.at(a) == rank.at(b)) {
+                        rank.at(a)++;
+                    }
+                }
+            }
+        } else {
+            if (root(par, a) == root(par, b)) {
+                cout << "Yes\n";
+            } else {
+                cout << "No\n";
+            }
         }
-    }
-    stack<mi> ans;
-    while (!query.empty()) {
-        ans.push(d.size(0) - 1);
-        mi x = query.top();
-        query.pop();
-        d.merge(g.at(x).first, g.at(x).second);
-        // cout << d.size(0) << endl;
-    }
-    while (!ans.empty()) {
-        cout << ans.top() << '\n';
-        ans.pop();
     }
 }
