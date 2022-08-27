@@ -47,31 +47,34 @@ inline istream& operator>>(istream& is, vector<T>& vec)
 int main()
 {
     __SPEED_UP__
-    mi n, m;
-    cin >> n >> m;
-    vmi x(n);
-    cin >> x;
-    vmi bonus(n + 1, 0);
-    rep(i, m)
+    mi n;
+    cin >> n;
+    mi sx, sy, tx, ty;
+    cin >> sx >> sy >> tx >> ty;
+    vmi x(n), y(n), r(n);
+    rep(i, n) cin >> x.at(i) >> y.at(i) >> r.at(i);
+    dsu d(n);
+    mi start = -1;
+    mi end = -1;
+    rep(i, n)
     {
-        mi c, y;
-        cin >> c >> y;
-        // c--;
-        bonus.at(c) = y;
-    }
-    vvmi dp(n + 1, vmi(n + 1, 0)); // dp.at(i).at(j):
-    rep2(i, 1, n + 1)
-    {
-        mi maxv = 0;
-        rep2(j, 1, i + 1)
+        mi s_dist_squ = (sx - x.at(i)) * (sx - x.at(i)) + (sy - y.at(i)) * (sy - y.at(i));
+        mi t_dist_squ = (tx - x.at(i)) * (tx - x.at(i)) + (ty - y.at(i)) * (ty - y.at(i));
+        if (s_dist_squ == r.at(i) * r.at(i)) {
+            start = i;
+        }
+        if (t_dist_squ == r.at(i) * r.at(i)) {
+            end = i;
+        }
+        rep(j, i)
         {
-            dp.at(i).at(j) += dp.at(i - 1).at(j - 1) + x.at(i - 1) + bonus.at(j);
-            chmax(maxv, dp.at(i).at(j));
-        }
-        if (i == n) {
-            cout << maxv << endl;
-        } else {
-            dp.at(i + 1).at(0) = maxv;
+            mi dist_squ = (x.at(i) - x.at(j)) * (x.at(i) - x.at(j)) + (y.at(i) - y.at(j)) * (y.at(i) - y.at(j));
+            mi plus_squ = (r.at(i) + r.at(j)) * (r.at(i) + r.at(j));
+            mi minus_squ = abs(r.at(i) - r.at(j)) * abs(r.at(i) - r.at(j));
+            if (minus_squ <= dist_squ && dist_squ <= plus_squ) {
+                d.merge(i, j);
+            }
         }
     }
+    cout << YesNo(d.same(start, end)) << endl;
 }

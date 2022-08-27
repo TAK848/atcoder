@@ -43,35 +43,35 @@ inline istream& operator>>(istream& is, vector<T>& vec)
 }
 
 // #define endl '\n'
-
+vd memo;
+double rec(mi n)
+{
+    if (memo.at(n) != 0) {
+        // cout << "memo " << n << endl;
+        return memo.at(n);
+    }
+    if (n == 1) {
+        return 3.5;
+    }
+    double ans = 0;
+    rep2(i, 1, 7)
+    {
+        double tmp = rec(n - 1);
+        if (tmp < i) {
+            ans += i / (double)6;
+        } else {
+            ans += tmp / 6;
+        }
+        // cout << tmp << " ";
+    }
+    // cout << ans << endl;
+    return memo.at(n) = ans;
+}
 int main()
 {
     __SPEED_UP__
-    mi n, m;
-    cin >> n >> m;
-    vmi x(n);
-    cin >> x;
-    vmi bonus(n + 1, 0);
-    rep(i, m)
-    {
-        mi c, y;
-        cin >> c >> y;
-        // c--;
-        bonus.at(c) = y;
-    }
-    vvmi dp(n + 1, vmi(n + 1, 0)); // dp.at(i).at(j):
-    rep2(i, 1, n + 1)
-    {
-        mi maxv = 0;
-        rep2(j, 1, i + 1)
-        {
-            dp.at(i).at(j) += dp.at(i - 1).at(j - 1) + x.at(i - 1) + bonus.at(j);
-            chmax(maxv, dp.at(i).at(j));
-        }
-        if (i == n) {
-            cout << maxv << endl;
-        } else {
-            dp.at(i + 1).at(0) = maxv;
-        }
-    }
+    mi n;
+    cin >> n;
+    memo.resize(n + 1, 0);
+    cout << fixed << setprecision(10) << rec(n) << endl;
 }

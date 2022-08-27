@@ -12,7 +12,7 @@ using vs = vector<string>;
 using vvs = vector<vs>;
 using vb = vector<bool>;
 using vvb = vector<vb>;
-// using modi = modint1000000007;
+using modi = modint1000000007;
 // using modi = modint998244353;
 #define __SPEED_UP__                  \
     ios_base::sync_with_stdio(false); \
@@ -47,31 +47,27 @@ inline istream& operator>>(istream& is, vector<T>& vec)
 int main()
 {
     __SPEED_UP__
-    mi n, m;
-    cin >> n >> m;
-    vmi x(n);
-    cin >> x;
-    vmi bonus(n + 1, 0);
-    rep(i, m)
+    mi h, w;
+    cin >> h >> w;
+    vs s(h);
+    cin >> s;
+    vector<vector<modi>> dp(h, vector<modi>(w, 0));
+    rep(i, h)
     {
-        mi c, y;
-        cin >> c >> y;
-        // c--;
-        bonus.at(c) = y;
-    }
-    vvmi dp(n + 1, vmi(n + 1, 0)); // dp.at(i).at(j):
-    rep2(i, 1, n + 1)
-    {
-        mi maxv = 0;
-        rep2(j, 1, i + 1)
+        rep(j, w)
         {
-            dp.at(i).at(j) += dp.at(i - 1).at(j - 1) + x.at(i - 1) + bonus.at(j);
-            chmax(maxv, dp.at(i).at(j));
-        }
-        if (i == n) {
-            cout << maxv << endl;
-        } else {
-            dp.at(i + 1).at(0) = maxv;
+            if (s.at(i).at(j) == '#')
+                continue;
+            if (i == 0 && j == 0) {
+                dp.at(0).at(0) = 1;
+            } else if (i == 0) {
+                dp.at(0).at(j) = dp.at(0).at(j - 1);
+            } else if (j == 0) {
+                dp.at(i).at(0) = dp.at(i - 1).at(0);
+            } else {
+                dp.at(i).at(j) = dp.at(i - 1).at(j) + dp.at(i).at(j - 1);
+            }
         }
     }
+    cout << dp.back().back().val() << '\n';
 }

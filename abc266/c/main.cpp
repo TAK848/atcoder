@@ -47,31 +47,39 @@ inline istream& operator>>(istream& is, vector<T>& vec)
 int main()
 {
     __SPEED_UP__
-    mi n, m;
-    cin >> n >> m;
-    vmi x(n);
-    cin >> x;
-    vmi bonus(n + 1, 0);
-    rep(i, m)
-    {
-        mi c, y;
-        cin >> c >> y;
-        // c--;
-        bonus.at(c) = y;
-    }
-    vvmi dp(n + 1, vmi(n + 1, 0)); // dp.at(i).at(j):
-    rep2(i, 1, n + 1)
-    {
-        mi maxv = 0;
-        rep2(j, 1, i + 1)
-        {
-            dp.at(i).at(j) += dp.at(i - 1).at(j - 1) + x.at(i - 1) + bonus.at(j);
-            chmax(maxv, dp.at(i).at(j));
-        }
-        if (i == n) {
-            cout << maxv << endl;
-        } else {
-            dp.at(i + 1).at(0) = maxv;
-        }
+    mi ax, ay, bx, by, cx, cy, dx, dy;
+    cin >> ax >> ay >> bx >> by >> cx >> cy >> dx >> dy;
+    // mi ac2, bd2;
+    // ac2 = (ax - cx) * (ax - cx) + (ay - cy) * (ay - cy);
+    // bd2 = (bx - dx) * (bx - dx) + (by - dy) * (by - dy);
+    // mi ab2, bc2, cd2, da2;
+    // ab2 = (ax - bx) * (ax - bx) + (ay - by) * (ay - by);
+    // bc2 = (bx - cx) * (bx - cx) + (by - cy) * (by - cy);
+    // cd2 = (cx - dx) * (cx - dx) + (cy - dy) * (cy - dy);
+    // da2 = (dx - ax) * (dx - ax) + (dy - ay) * (dy - ay);
+    // mi outer_product_
+    mi acx, acy, bdx, bdy;
+    acx = cx - ax;
+    acy = cy - ay;
+    bdx = dx - bx;
+    bdy = dy - by;
+    mi abx, aby, adx, ady;
+    abx = bx - ax;
+    aby = by - ay;
+    adx = dx - ax;
+    ady = dy - ay;
+    mi bax, bay, bcx, bcy;
+    bax = ax - bx;
+    bay = ay - by;
+    bcx = cx - bx;
+    bcy = cy - by;
+    mi crossacb = acx * aby - acy * abx;
+    mi crossacd = acx * ady - acy * adx;
+    mi crossbda = bdx * bay - bdy * bax;
+    mi crossbdc = bdx * bcy - bdy * bcx;
+    if (crossacb * crossacd < 0 && crossbda * crossbdc < 0) {
+        cout << "Yes" << endl;
+    } else {
+        cout << "No" << endl;
     }
 }

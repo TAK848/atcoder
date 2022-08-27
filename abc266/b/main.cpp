@@ -47,31 +47,17 @@ inline istream& operator>>(istream& is, vector<T>& vec)
 int main()
 {
     __SPEED_UP__
-    mi n, m;
-    cin >> n >> m;
-    vmi x(n);
-    cin >> x;
-    vmi bonus(n + 1, 0);
-    rep(i, m)
-    {
-        mi c, y;
-        cin >> c >> y;
-        // c--;
-        bonus.at(c) = y;
-    }
-    vvmi dp(n + 1, vmi(n + 1, 0)); // dp.at(i).at(j):
-    rep2(i, 1, n + 1)
-    {
-        mi maxv = 0;
-        rep2(j, 1, i + 1)
-        {
-            dp.at(i).at(j) += dp.at(i - 1).at(j - 1) + x.at(i - 1) + bonus.at(j);
-            chmax(maxv, dp.at(i).at(j));
-        }
-        if (i == n) {
-            cout << maxv << endl;
-        } else {
-            dp.at(i + 1).at(0) = maxv;
-        }
+    mi n;
+    cin >> n;
+    if (n >= 0) {
+        cout << n % 998244353 << endl;
+    } else {
+        n *= -1;
+        mi a = n / 998244353 + 1;
+        // cout << a << endl;
+        n *= -1;
+        n += a * 998244353;
+        // cout << n << endl;
+        cout << n % 998244353 << endl;
     }
 }

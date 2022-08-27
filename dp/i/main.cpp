@@ -47,31 +47,37 @@ inline istream& operator>>(istream& is, vector<T>& vec)
 int main()
 {
     __SPEED_UP__
-    mi n, m;
-    cin >> n >> m;
-    vmi x(n);
-    cin >> x;
-    vmi bonus(n + 1, 0);
-    rep(i, m)
+    mi n;
+    cin >> n;
+    vd p(n);
+    cin >> p;
+    vvd dp(n + 1, vd(n + 1, 0));
+    cout << fixed << setprecision(16);
+    double ans = 0;
+    rep(i, n + 1)
     {
-        mi c, y;
-        cin >> c >> y;
-        // c--;
-        bonus.at(c) = y;
-    }
-    vvmi dp(n + 1, vmi(n + 1, 0)); // dp.at(i).at(j):
-    rep2(i, 1, n + 1)
-    {
-        mi maxv = 0;
-        rep2(j, 1, i + 1)
+        if (i == 0)
+            continue;
+        rep(j, i + 1)
         {
-            dp.at(i).at(j) += dp.at(i - 1).at(j - 1) + x.at(i - 1) + bonus.at(j);
-            chmax(maxv, dp.at(i).at(j));
-        }
-        if (i == n) {
-            cout << maxv << endl;
-        } else {
-            dp.at(i + 1).at(0) = maxv;
+            mi ura = i - j;
+            if (i == 1) {
+                dp.at(i).at(j) = j == 0 ? 1 - p.at(i - 1) : p.at(i - 1);
+            } else {
+                if (j != i) {
+                    dp.at(i).at(j) += dp.at(i - 1).at(j) * (1 - p.at(i - 1));
+                }
+                if (j != 0) {
+                    dp.at(i).at(j) += dp.at(i - 1).at(j - 1) * (p.at(i - 1));
+                }
+            }
+            if (i == n) {
+                if (j > ura) {
+                    ans += dp.at(i).at(j);
+                }
+            }
+            // cout << i << " " << j << " " << ura << " " << dp.at(i).at(j) << endl;
         }
     }
+    cout << ans << '\n';
 }

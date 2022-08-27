@@ -47,31 +47,48 @@ inline istream& operator>>(istream& is, vector<T>& vec)
 int main()
 {
     __SPEED_UP__
-    mi n, m;
-    cin >> n >> m;
-    vmi x(n);
-    cin >> x;
-    vmi bonus(n + 1, 0);
-    rep(i, m)
+    mi n;
+    cin >> n;
+    vmi t(n), x(n), a(n);
+    rep(i, n) cin >> t.at(i) >> x.at(i) >> a.at(i);
+    mi finishtime = t.at(n - 1);
+    vector<pair<mi, mi>> sunuke(finishtime + 1, { 0, 0 });
+    rep(i, n)
     {
-        mi c, y;
-        cin >> c >> y;
-        // c--;
-        bonus.at(c) = y;
+        sunuke.at(t.at(i)) = { x.at(i), a.at(i) };
     }
-    vvmi dp(n + 1, vmi(n + 1, 0)); // dp.at(i).at(j):
-    rep2(i, 1, n + 1)
+    vvmi dp(finishtime + 1, vmi(5, -1));
+    dp.at(0).at(0) = 0;
+    // cout << "0 " << dp.at(0).at(0) << " " << dp.at(0).at(1) << " " << dp.at(0).at(2) << " " << dp.at(0).at(3) << " " << dp.at(0).at(4) << endl;
+    rep2(i, 1, finishtime + 1)
     {
-        mi maxv = 0;
-        rep2(j, 1, i + 1)
+        rep(j, 5)
         {
-            dp.at(i).at(j) += dp.at(i - 1).at(j - 1) + x.at(i - 1) + bonus.at(j);
-            chmax(maxv, dp.at(i).at(j));
+            if (dp.at(i - 1).at(j) != -1) {
+                if (j != 0 && dp.at(i - 1).at(j - 1) == -1) {
+                    dp.at(i).at(j) = 0;
+                } else {
+                    dp.at(i).at(j) = max((mi)0, dp.at(i - 1).at(j));
+                }
+            }
+
+            if (j != 0 && dp.at(i - 1).at(j - 1) != -1) {
+                chmax(dp.at(i).at(j), max(dp.at(i - 1).at(j - 1), (mi)0));
+            }
+            if (j != 4 && dp.at(i - 1).at(j + 1) != -1) {
+                chmax(dp.at(i).at(j), max(dp.at(i - 1).at(j + 1), (mi)0));
+            }
+            // chmax(dp.at(i).at(j), (mi)0);
+            if (dp.at(i).at(j) != -1 && sunuke.at(i).first == j) {
+                dp.at(i).at(j) += sunuke.at(i).second;
+            }
         }
-        if (i == n) {
-            cout << maxv << endl;
-        } else {
-            dp.at(i + 1).at(0) = maxv;
-        }
+        // cout << i << " " << dp.at(i).at(0) << " " << dp.at(i).at(1) << " " << dp.at(i).at(2) << " " << dp.at(i).at(3) << " " << dp.at(i).at(4) << endl;
     }
+    mi ans = 0;
+    rep(i, 5)
+    {
+        chmax(ans, dp.at(finishtime).at(i));
+    }
+    cout << ans << endl;
 }
