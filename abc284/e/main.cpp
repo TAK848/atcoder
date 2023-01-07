@@ -1,0 +1,118 @@
+#include <atcoder/all>
+#include <bits/stdc++.h>
+#define _GLIBCXX_DEBUG
+using namespace std;
+using namespace atcoder;
+using mi = int64_t;
+using vmi = vector<mi>;
+using vvmi = vector<vmi>;
+using vd = vector<double>;
+using vvd = vector<vd>;
+using vs = vector<string>;
+using vvs = vector<vs>;
+using vb = vector<bool>;
+using vvb = vector<vb>;
+// using modi = modint1000000007;
+// using modi = modint998244353;
+#define __SPEED_UP__                  \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(nullptr);
+#define rep(i, n) for (mi i = 0; i < (mi)(n); i++)
+#define repstep(i, n, step) for (mi i = (mi)(n); i < (mi)(n) + (mi)(step); i++)
+#define rep2(i, m, n) for (mi i = (mi)(m); i < (mi)(n); i++)
+#define repstep2(i, m, n, step) for (mi i = (mi)(m); i < (mi)(n) + (mi)(step); i++)
+#define forall(i, v) for (auto& i : v)
+#define forallpair(i, j, v) for (auto& [i, j] : v)
+#define all(v) v.begin(), v.end()
+#define YesNo(a) ((a) ? "Yes" : "No")
+#define YESNO(a) ((a) ? "YES" : "NO")
+#define yesno(a) ((a) ? "yes" : "no")
+
+// aよりもbが大きいならばaをbで更新する(更新されたならばtrueを返す)
+template <typename T>
+inline bool chmax(T& a, T b) { return ((a < b) ? (a = b, true) : (false)); }
+// aよりもbが小さいならばaをbで更新する(更新されたならばtrueを返す)
+template <typename T>
+inline bool chmin(T& a, T b) { return ((a > b) ? (a = b, true) : (false)); }
+template <typename T>
+inline istream& operator>>(istream& is, vector<T>& vec)
+{
+    for (T& x : vec)
+        is >> x;
+    return is;
+}
+template <typename T>
+inline ostream& operator<<(ostream& os, vector<T>& vec)
+{
+    mi size = vec.size();
+    rep(i, size) os << vec.at(i) << (i + 1 == size ? "" : " ");
+    return os;
+}
+
+// #define endl '\n'
+
+mi n, m;
+vvmi g;
+bool flag = false;
+// mi count = 0;
+// dfs all route count from 0
+mi dfs(vmi& route, mi now, set<mi>& visited)
+{
+    if (flag) {
+        return 1000000;
+    }
+    mi count = 0;
+    if (route.size() == n) {
+        // cout << route << endl;
+        return 1;
+    }
+    forall(next, g.at(now))
+    {
+        // if (find(all(route), next) != route.end()) {
+        //     continue;
+        // }
+        if (visited.count(next)) {
+            continue;
+        }
+        route.push_back(next);
+        visited.insert(next);
+        count += dfs(route, next, visited);
+        visited.erase(next);
+        route.pop_back();
+        if (count >= 1000000) {
+            flag = true;
+            return count;
+        }
+    }
+    if (count >= 1000000) {
+        flag = true;
+        return count;
+    }
+    return count + 1;
+}
+
+int main()
+{
+    __SPEED_UP__
+    cin >> n >> m;
+    g.resize(n);
+    rep(i, m)
+    {
+        mi a, b;
+        cin >> a >> b;
+        a--;
+        b--;
+        g.at(a).push_back(b);
+        g.at(b).push_back(a);
+    }
+    vmi route;
+    set<mi> visited;
+    route.push_back(0);
+    visited.insert(0);
+    mi count = dfs(route, 0, visited);
+    if (count >= 1000000) {
+        cout << 1000000 << endl;
+    } else {
+        cout << count << endl;
+    }
+}
