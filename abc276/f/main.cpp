@@ -58,7 +58,10 @@ int main()
     cin >> n;
     vmi a(n);
     cin >> a;
-    modi ans = 0;
+    vmi sorta = a;
+    sort(all(sorta));
+    // modi ans = 0;
+    vector<modi> ans(n, 0);
     rep(i, n)
     {
         mi k = i + 1;
